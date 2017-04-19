@@ -41,7 +41,7 @@ var attend= mongoose.model('attend',new Schema({
 //var date = $('#datepicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
 
 app.get('/', function (req, res) {
-   res.sendFile(path.join(__dirname,'/index.html'));
+   res.sendFile(path.join(__dirname,'index.html'));
    console.log('request made at initial');    //initial
 });
 
