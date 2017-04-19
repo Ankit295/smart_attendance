@@ -60,7 +60,7 @@ app.use(sessions({
 
 app.get('/faculty_signin',function(req,res){
 
-	res.sendFile(path.join(__dirname,'faculty_login.html'));	
+	res.sendFile(path.join(__dirname,'Faculty_login.html'));	
 });
 
 app.get('/Student_signin',function(req,res){
