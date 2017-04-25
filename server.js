@@ -51,8 +51,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(sessions({
 	cookieName:'sessions',
 	secret:'awedxctyhnvcdfghjmmhgfdxcbvcxdfvcd',
-	duration:5*60*1000,
-	activeDuration:3*60*1000
+	duration:2*60*1000,
+	activeDuration:0.5*60*1000
 }));
 
 
@@ -284,11 +284,59 @@ app.get('/give_attendance',function(req,res){
 	else{res.redirect('/Student_signin');}
 
 });
+app.get('/student_list',function (req,res){
+			if (req.sessions && req.sessions.user)
+	{
+
+		console.log(req.sessions);
+		console.log(req.sessions.user.employeeNo);
+		user_faculty.findOne({employeeNo:req.sessions.user.employeeNo},function(err,user){
+			
+			if (!err){
+				if(!user){
+				console.log(user);	
+				req.sessions.reset();
+				res.redirect('/faculty_signin');}
+			else
+			{
+					user_student.find({},function(err,docs){
+			if(err){
+				console.log('error')
+				res.redirect('/take_attendance');
+			}
+			else{
+			var strJson='{"array":[';	
+			
+			  var intCount = docs.length;
+              if (intCount > 0) {
+                for (var i = 0; i < intCount;) {
+                  strJson +=  JSON.stringify(docs[i]);
+
+                  i = i + 1;
+                  if (i < intCount) {
+                    strJson += ',';
+                  }
+                }
+              }
+             
+            strJson+=']}';
+            var jsom=JSON.parse(strJson);
+            res.jsonp(jsom);
+			}
+		});
+		}
+		}
+			else{res.write('tes');}
+		});
+	}
+	else{res.redirect('/faculty_signin');}
+
+
+});
 
 app.get('/logout',function(req,res){
 			req.sessions.reset();
 			res.redirect('/');
-		
 });
 app.listen(process.env.PORT || 3000, function(){
   console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);

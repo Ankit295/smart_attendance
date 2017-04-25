@@ -18,6 +18,28 @@
   $( function() {
     $( "#datepicker" ).datepicker();
   } );
+
+ function getlist(){
+    $.ajax({
+              url: "/student_list",
+              dataType: "jsonp",
+              jsonpCallback: 'populate',
+              type:'GET',
+              complete: function(data){console.log("success");}
+    });
+  }
+function populate(data){
+  console.log(data);
+  var total=0;var string='<table class="table table-striped"><thead><tr><th>#</th><th>Name</th><th>Reg No.</th></tr></thead>';
+  for (var i=0;i<data.array.length;i++){
+    string+='<tbody><tr><th scope="row">'+i+'</th><td>'+data.array[i].registrationNo+'</td><td>'+data.array[i].userName+'</td></tr>';
+  }
+    string+='</tbody></table>';
+    $('#slist').html(string);
+
+}
+
+
   </script>
 </head>
 <body>
@@ -47,10 +69,13 @@
 	</form>
 		<div class="panel-group">
     		<div class="panel panel-default">
-     		 <div class="panel-heading">
- 		 	<h3>See Enrolled Students</h3>
- 		 	</div>
- 			</div>
+     		 <div class="panel-heading" >
+ 		 	<a data-toggle="collapse" href="#collapse2"><h3 onclick="getlist()" >See Enrolled Students</h3></a>
+ 	 	</div>
+
+<div id="collapse2" class="panel-collapse collapse">
+<div class="panel-body" id=slist></div></div>
+      </div>
 	 	</div>	 
  		 </div>
 	 </div>
