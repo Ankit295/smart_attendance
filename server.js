@@ -51,8 +51,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(sessions({
 	cookieName:'sessions',
 	secret:'awedxctyhnvcdfghjmmhgfdxcbvcxdfvcd',
-	duration:2*60*1000,
-	activeDuration:0.5*60*1000
+	duration:5*60*1000,
+	activeDuration:5*60*1000
 }));
 
 
@@ -138,11 +138,12 @@ app.post('/take_attendance',function(req,res){
 //student gives attendance
 app.post('/give_attendance',function(req,res){
 	var n=parseInt(req.body.otp);
+	
 	var query ={
 			otp:n,
 			date:req.body.datepicker
 				}; 
-				console.log(query);
+	console.log(query);
 	attend.findOne(query,function(err,user){
 		if(err){
 				res.write('no data');
@@ -181,8 +182,6 @@ user_student.findOne({registrationNo:req.body.registrationNo},function(err,user)
 	}else{
 		if(user){
 
-			console.log(user);
-			console.log(req.body);
 		if(req.body.password==user.password){
 			req.sessions.user=user;
 			res.redirect('/give_attendance');
@@ -213,8 +212,6 @@ user_faculty.findOne({employeeNo:req.body.employeeNo},function(err,user){
 	}else{
 		if(user){
 
-			console.log(user);
-			console.log(req.body);
 		if(req.body.password==user.password){
 			req.sessions.user=user;
 			res.redirect('/take_attendance');
@@ -239,8 +236,6 @@ app.get('/take_attendance',function(req,res){
 	if (req.sessions && req.sessions.user)
 	{
 
-		console.log(req.sessions);
-		console.log(req.sessions.user.employeeNo);
 		user_faculty.findOne({employeeNo:req.sessions.user.employeeNo},function(err,user){
 			
 			if (!err){
@@ -264,7 +259,6 @@ app.get('/give_attendance',function(req,res){
 	if (req.sessions && req.sessions.user)
 	{
 
-		console.log(req.sessions.user);
 		user_student.findOne({registrationNo:req.sessions.user.registrationNo},function(err,user){
 			
 			
@@ -284,12 +278,11 @@ app.get('/give_attendance',function(req,res){
 	else{res.redirect('/Student_signin');}
 
 });
+//faulty to see student student list
 app.get('/student_list',function (req,res){
 			if (req.sessions && req.sessions.user)
 	{
 
-		console.log(req.sessions);
-		console.log(req.sessions.user.employeeNo);
 		user_faculty.findOne({employeeNo:req.sessions.user.employeeNo},function(err,user){
 			
 			if (!err){
@@ -333,7 +326,37 @@ app.get('/student_list',function (req,res){
 
 
 });
+//app.delete is left
+//student can calculate attendance
+app.get('/see_attendance',function (req,res){
 
+attend.find({},function(err,docs){
+			if(err){
+				console.log('error')
+				res.redirect('/take_attendance');
+			}
+			else{
+			var strJson='{"registrationNo":"'+ req.sessions.user.registrationNo  +'","array":[';	
+			
+			  var intCount = docs.length;
+              if (intCount > 0) {
+                for (var i = 0; i < intCount;) {
+                  strJson +=  JSON.stringify(docs[i]);
+
+                  i = i + 1;
+                  if (i < intCount) {
+                    strJson += ',';
+                  }
+                }
+              }
+             
+            strJson+=']}';
+           
+            var jsom=JSON.parse(strJson);
+            res.jsonp(jsom);
+			}
+});
+});
 app.get('/logout',function(req,res){
 			req.sessions.reset();
 			res.redirect('/');

@@ -12,13 +12,42 @@
   $( function() {
     $( "#datepicker" ).datepicker();
   } );
-  </script>
 
+function getlist(){
+	$.ajax({
+		url:'/see_attendance',
+		dataType:'jsonp',
+		jsonpCallback:'populate',
+		type:'GET',
+		complete:function(data){console.log('success');}
+	});}
+	function populate(data){
+  	console.log(data);
+  	var total=0;
+  	var string='<table class="table table-striped"><thead><tr><th>#</th><th>Date</th><th>Attendance</th></tr></thead>';
+  
+for (var i=0;i<data.array.length;i++){
+		var tot=0; //attendance check
+		var date= data.array[i].date;
+		console.log(date);
+		var a = data.array[i].std_reg_no.indexOf(data.registrationNo);
+if(a>=0){		
+			tot+=tot;
+			string+='<tbody><tr><th scope="row">'+(i+1)+'</th><td>'+date+'</td><td>'+1+'</td></tr>';
+		}
+
+	else{
+			string+='<tbody><tr><th scope="row">'+(i+1)+'</th><td>'+date+'</td><td>'+0+'</td></tr>';
+	}
+
+    }string+='</tbody></table>';
+    $('#slist').html(string);
+}
+  </script>
 </head>
 <body>
 
 <div class="container" >
-  <div class="container">
   	<div class="panel-group">
     	<div class="panel panel-default">
       		<div class="panel-heading">
@@ -40,13 +69,26 @@
         		</form>
     		</div>
 		   	</div>
-		   	<div class="panel-group">
-    		<div class="panel panel-default">
-     		 <div class="panel-heading">
- 		 	<h3>See Attendance</h3>
- 		 	</div>
- 			</div>
-	 	</div>	 
-</div></div></div>  
+		   		<div class="panel-group">
+        <div class="panel panel-default">
+         <div class="panel-heading" >
+      <a data-toggle="collapse" href="#collapse2"><h3 onclick="getlist()" >See Attendance</h3></a>
+    </div>
+
+<div id="collapse2" class="panel-collapse collapse">
+
+<div class="panel-body" id=slist></div>
+</div>
+
+      </div>
+<div class="panel-group">
+        <div class="panel panel-default">
+         <div class="panel-heading" >
+      <a href="/logout"><h3>Logout</h3></a>
+    </div>
+     </div>
+    </div>
+    </div>  
+</div>
 </body>
 </html>

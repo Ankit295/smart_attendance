@@ -32,7 +32,7 @@ function populate(data){
   console.log(data);
   var total=0;var string='<table class="table table-striped"><thead><tr><th>#</th><th>Name</th><th>Reg No.</th></tr></thead>';
   for (var i=0;i<data.array.length;i++){
-    string+='<tbody><tr><th scope="row">'+i+'</th><td>'+data.array[i].registrationNo+'</td><td>'+data.array[i].userName+'</td></tr>';
+    string+='<tbody><tr><th scope="row">'+(i+1)+'</th><td>'+data.array[i].userName+'</td><td>'+data.array[i].registrationNo+'</td></tr>';
   }
     string+='</tbody></table>';
     $('#slist').html(string);
@@ -54,31 +54,41 @@ function populate(data){
         		</h4>
       		</div>
      <form class="form" method="post" action="/take_attendance">
-      		<div id="collapse1" class="panel-collapse collapse">
-        		<div class="panel-body">
-         		<h4>Choose Date</h4>
-         		<input type="text" id="datepicker" name="datepicker" key="datepicker"></div>
+      	<div id="collapse1" class="panel-collapse collapse">
+         <div class="panel-body">
+         		     <h4>Choose Date</h4>
+         		     <input type="text" id="datepicker" name="datepicker" key="datepicker"></div>
         
        		<div class="panel-body">
-        		<h4>Set OTP</h4>
-        		</button> <input type="number" name="otp" id="otp">
+        		    <h4>Set OTP</h4>
+        		    </button> <input type="number" name="otp" id="otp">
         		    <button type="submit" class="btn btn-success">Submit</button>		
-        		</div>
+        	</div>
     		</div>
 		   	</div>
 	</form>
 		<div class="panel-group">
-    		<div class="panel panel-default">
-     		 <div class="panel-heading" >
- 		 	<a data-toggle="collapse" href="#collapse2"><h3 onclick="getlist()" >See Enrolled Students</h3></a>
- 	 	</div>
+        <div class="panel panel-default">
+         <div class="panel-heading" >
+      <a data-toggle="collapse" href="#collapse2"><h3 onclick="getlist()" >See Enrolled Students</h3></a>
+    </div>
 
 <div id="collapse2" class="panel-collapse collapse">
-<div class="panel-body" id=slist></div></div>
+<div class="panel-body" id=slist></div>
+</div>
       </div>
-	 	</div>	 
- 		 </div>
+    <div class="panel-group">
+        <div class="panel panel-default">
+         <div class="panel-heading" >
+      <a href="/logout"><h3>Logout</h3></a>
+    </div>
+     </div>
+    </div>
+    </div>
 	 </div>
 </div>
+</div>
+</div>
+
 </body>
 </html>
