@@ -337,7 +337,6 @@ attend.find({},function(err,docs){
 			}
 			else{
 			var strJson='{"registrationNo":"'+ req.sessions.user.registrationNo  +'","array":[';	
-			
 			  var intCount = docs.length;
               if (intCount > 0) {
                 for (var i = 0; i < intCount;) {

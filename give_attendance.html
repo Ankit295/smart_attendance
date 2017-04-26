@@ -23,16 +23,16 @@ function getlist(){
 	});}
 	function populate(data){
   	console.log(data);
-  	var total=0;
+  	var tot=0; //attendance check
   	var string='<table class="table table-striped"><thead><tr><th>#</th><th>Date</th><th>Attendance</th></tr></thead>';
-  
-for (var i=0;i<data.array.length;i++){
-		var tot=0; //attendance check
+  var i=0;
+for (i=0;i<data.array.length;i++){
+		
 		var date= data.array[i].date;
 		console.log(date);
 		var a = data.array[i].std_reg_no.indexOf(data.registrationNo);
 if(a>=0){		
-			tot+=tot;
+			tot+=1;
 			string+='<tbody><tr><th scope="row">'+(i+1)+'</th><td>'+date+'</td><td>'+1+'</td></tr>';
 		}
 
@@ -40,9 +40,11 @@ if(a>=0){
 			string+='<tbody><tr><th scope="row">'+(i+1)+'</th><td>'+date+'</td><td>'+0+'</td></tr>';
 	}
 
-    }string+='</tbody></table>';
+    }string+='</tbody></th><td>Attendance</td><td>'+(tot*100/(i))+'%</td></tr></table>';
+
     $('#slist').html(string);
-}
+
+}	
   </script>
 </head>
 <body>
