@@ -135,6 +135,8 @@ app.post('/take_attendance',function(req,res){
 		
 		});
 });
+
+
 //student gives attendance
 app.post('/give_attendance',function(req,res){
 	var n=parseInt(req.body.otp);
