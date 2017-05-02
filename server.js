@@ -146,23 +146,21 @@ app.post('/give_attendance',function(req,res){
 	console.log(query);
 	attend.findOne(query,function(err,user){
 		if(err){
-				res.write('no data');
+				res.send('no data');
 				console.log(query);
 		}
 		else{
 			if(!user){
 			res.write('no user');
 		}
-			else{var std_attendance=req.sessions.user.registrationNo ;//student giving attendance
-			
+			else{
+			var std_attendance=req.sessions.user.registrationNo ;//student giving attendance
 			user.std_reg_no.push(std_attendance);
-			
 			console.log('hi'+user+'hi');
-			
-user.save(function(err){
-		if(err){ res.write('Errooor'); }
-		else{
-			res.redirect('/give_attendance');
+			user.save(function(err){
+				if(err){ res.send('Errooor'); }
+				else{
+							res.redirect('/give_attendance');
 		}
 		
 		});
